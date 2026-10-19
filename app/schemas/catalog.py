@@ -1,6 +1,6 @@
 from datetime import date, time
-from graphlib import CycleError, TopologicalSorter
 from enum import StrEnum
+from graphlib import CycleError, TopologicalSorter
 from itertools import pairwise
 from typing import Self
 
@@ -97,7 +97,9 @@ class CatalogData(BaseModel):
 
         for previous, current in pairwise(self.terms):
             if current.starts_on <= previous.ends_on:
-                raise ValueError(f"Term {current.code} must start after {previous.code}")
+                raise ValueError(
+                    f"Term {current.code} must start after {previous.code}"
+                )
 
         records = [record for student in self.students for record in student.records]
         used_courses = {
