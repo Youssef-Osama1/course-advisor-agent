@@ -1,6 +1,6 @@
-# AI Agent Template
+# Course Advisor Agent
 
-A production-ready Python starting point for tool-calling LLM agents.
+A tool-calling agent that answers student questions about courses, eligibility and sections.
 
 ## Quick Start
 
