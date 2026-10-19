@@ -8,3 +8,7 @@ class ToolError(Exception):
 
 class AgentStepLimitError(Exception):
     pass
+
+
+class StudentNotFoundError(Exception):
+    pass
