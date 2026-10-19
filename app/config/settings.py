@@ -1,4 +1,6 @@
+from datetime import UTC, date, datetime
 from functools import lru_cache
+from pathlib import Path
 from typing import Literal
 
 from pydantic import Field, SecretStr
@@ -17,7 +19,12 @@ class Settings(BaseSettings):
     llm_timeout_seconds: float = 30.0
     llm_max_retries: int = 2
     log_level: Literal["DEBUG", "INFO", "WARNING", "ERROR"] = "INFO"
+    catalog_path: Path = Path(__file__).resolve().parents[2] / "data" / "catalog.json"
+    today_override: date | None = None
     agent_max_steps: int = Field(default=5, ge=1, le=10)
+
+    def current_date(self) -> date:
+        return self.today_override or datetime.now(UTC).date()
 
 
 @lru_cache
