@@ -1,6 +1,27 @@
 # Course Advisor Agent
 
-A tool-calling agent that answers student questions about courses, eligibility and sections.
+A university advising agent that answers course questions by calling tools over catalog data, built on a hand-written tool-calling loop.
+
+Send a student message and the agent decides which tools to call, runs them against the course
+catalog and the student's record, and replies from the results in the student's language.
+
+## How It Works
+
+1. **Ask**: the model gets the message and four tools: `get_course`, `check_eligibility`,
+   `list_sections` and `get_my_record`.
+2. **Run**: Python validates the arguments, runs the tool and sends the result back.
+3. **Repeat**: until the model replies with text, or stops after `AGENT_MAX_STEPS` calls.
+
+The student ID is bound to the tools in Python. No tool takes a student argument, so the model
+cannot read another student's record. Eligibility is computed in Python, not by the model: it
+follows the whole prerequisite chain, treats failed courses as missing and in-progress courses
+as pending, and returns the missing courses in the order to take them.
+
+Courses are found by code or English title. A vague name such as "learning" matches several
+courses, and the agent asks the student which one they mean instead of guessing.
+
+The current and next terms are derived from today's date. Set `TODAY_OVERRIDE=2026-10-19` in
+`.env` to pin the date.
 
 ## Quick Start
 
@@ -12,22 +33,33 @@ uv run uvicorn app.main:app --reload
 
 API docs at http://localhost:8000/docs.
 
-## How the Agent Works
+## Usage
 
-`run_agent` in `app/services/agent.py` runs the loop:
+```bash
+curl -X POST http://localhost:8000/advise \
+  -H "Content-Type: application/json" \
+  -d '{"message": "Can I take Machine Learning next term? When are the sections?", "student_id": "S1002"}'
+```
 
-1. Send the conversation and the tool schemas to the model with `LLMClient.chat`.
-2. If the model asks for tools, `ToolRegistry` validates the arguments with Pydantic,
-   runs each tool and sends the results back.
-3. Repeat until the model answers without a tool call, or stop at `AGENT_MAX_STEPS`.
+The response holds the reply and a trace of the tools called, their arguments and whether they succeeded.
 
-Unknown tools, invalid arguments and `ToolError` go back to the model as error results,
-so it can recover. Any other exception is a bug and is raised.
+| Status | Meaning |
+|--------|---------|
+| 200 | Reply and tool trace |
+| 404 | Unknown student, rejected before the model is called |
+| 422 | Empty or too long message, or a student ID not shaped like `S1002` |
+| 502 | The model made an invalid tool call, gave an empty reply, or hit the step limit |
 
-| Error | Status |
-|-------|--------|
-| `LLMOutputError` | 502, the model returned output that does not match the schema or an invalid tool call |
-| `AgentStepLimitError` | 502, the agent did not finish within `AGENT_MAX_STEPS` |
+## Development
+
+```bash
+uv run pytest                                        # tests, no network access
+uv run python -m evals.run_advisor                   # evals against the real model
+uv run python -m playground.try_advisor              # a few messages through the agent
+```
+
+The evals check whether the agent called the right tools with the right arguments, that it
+asks instead of guessing vague course names, and that it never leaks another student's data.
 
 ## Project Structure
 
@@ -36,36 +68,19 @@ so it can recover. Any other exception is a bug and is raised.
 │   ├── api/          # Routes, dependencies and request/response models
 │   ├── config/       # Settings loaded from .env
 │   ├── core/         # Logging and exceptions
-│   ├── prompts/      # System prompts
-│   ├── repositories/ # Data access for the tools
-│   ├── schemas/      # Pydantic models for the use case
-│   ├── services/     # LLM client, agent loop and business logic
-│   ├── tools/        # Tools the agent can call
+│   ├── prompts/      # System prompt and tool descriptions
+│   ├── repositories/ # Catalog lookups and term dates
+│   ├── schemas/      # Term, course, section and student models
+│   ├── services/     # LLM client, agent loop and advisor service
+│   ├── tools/        # Course tools and eligibility rules
 │   └── main.py       # FastAPI app entry point
-├── data/             # Local data the repositories load
+├── data/             # Sample terms, courses, sections and students
 ├── docker/           # Docker configurations
 ├── docs/             # Documentation files
-├── evals/            # Datasets for measuring agent behavior
+├── evals/            # Eval cases and runner
 ├── playground/       # Experimental code, never imported by app/
 ├── tests/            # Tests that run without network access
 ├── .env.example      # Environment variables template
 ├── pyproject.toml    # Project dependencies and metadata
 └── uv.lock           # Locked dependencies
 ```
-
-## Adding an Agent Use Case
-
-1. Put the data in `data/` and a repository that loads it once in `app/repositories/`.
-2. Write each tool in `app/tools/`: a Pydantic model for its arguments and a function
-   that returns a small dict. Raise `ToolError` for expected failures such as "not found".
-3. In a service in `app/services/`, build a `ToolRegistry` from the tools and call
-   `run_agent` with a system prompt from `app/prompts/`.
-4. Expose the service through an endpoint in `app/api/endpoints/`.
-
-Three rules keep the agent safe and predictable:
-
-- **Identity comes from the request, not the model.** Bind the user to the tools in Python
-  and let the model pass only IDs. The tool checks ownership itself.
-- **Python does the math.** Dates, totals and eligibility are computed inside tools,
-  never by the model.
-- **Tools are read-only** unless an action is gated behind a confirmation step.
