@@ -1,0 +1,84 @@
+{
+  "terms": [
+    {"code": "2025-spring", "name": "Spring 2025", "starts_on": "2025-02-15", "ends_on": "2025-06-12"},
+    {"code": "2025-fall", "name": "Fall 2025", "starts_on": "2025-09-13", "ends_on": "2026-01-16"},
+    {"code": "2026-spring", "name": "Spring 2026", "starts_on": "2026-02-14", "ends_on": "2026-06-11"},
+    {"code": "2026-fall", "name": "Fall 2026", "starts_on": "2026-09-12", "ends_on": "2027-01-15"},
+    {"code": "2027-spring", "name": "Spring 2027", "starts_on": "2027-02-13", "ends_on": "2027-06-10"}
+  ],
+  "courses": [
+    {"code": "CS101", "title": "Introduction to Programming", "credits": 3, "description": "Programming fundamentals in Python: variables, control flow, functions and basic data types.", "prerequisites": []},
+    {"code": "CS201", "title": "Data Structures", "credits": 3, "description": "Lists, stacks, queues, trees, hash tables and graphs, with complexity analysis.", "prerequisites": ["CS101"]},
+    {"code": "CS301", "title": "Algorithms", "credits": 3, "description": "Sorting, searching, greedy algorithms, dynamic programming and graph algorithms.", "prerequisites": ["CS201"]},
+    {"code": "CS305", "title": "Databases", "credits": 3, "description": "Relational modeling, SQL, normalization, indexing and transactions.", "prerequisites": ["CS201"]},
+    {"code": "MATH101", "title": "Calculus I", "credits": 3, "description": "Limits, derivatives, integrals and their applications.", "prerequisites": []},
+    {"code": "MATH201", "title": "Linear Algebra", "credits": 3, "description": "Vectors, matrices, linear transformations, eigenvalues and eigenvectors.", "prerequisites": ["MATH101"]},
+    {"code": "MATH202", "title": "Probability and Statistics", "credits": 3, "description": "Probability, random variables, distributions, estimation and hypothesis testing.", "prerequisites": ["MATH201"]},
+    {"code": "CS402", "title": "Machine Learning", "credits": 3, "description": "Supervised and unsupervised learning, model evaluation and regularization.", "prerequisites": ["CS201", "MATH202"]},
+    {"code": "CS403", "title": "Deep Learning", "credits": 3, "description": "Neural networks, backpropagation, CNNs, RNNs and training practice.", "prerequisites": ["CS402"]},
+    {"code": "CS410", "title": "Computer Vision", "credits": 3, "description": "Image processing, feature extraction, object detection and segmentation.", "prerequisites": ["CS402"]}
+  ],
+  "sections": [
+    {"section_id": "26F-CS301-L1", "course_code": "CS301", "term": "2026-fall", "kind": "lecture", "days": ["monday", "wednesday"], "start": "12:00", "end": "13:30", "instructor": "Dr. Salma Adel", "capacity": 60, "enrolled": 51},
+    {"section_id": "26F-MATH202-L1", "course_code": "MATH202", "term": "2026-fall", "kind": "lecture", "days": ["monday", "wednesday"], "start": "10:00", "end": "11:30", "instructor": "Dr. Hana Fawzy", "capacity": 80, "enrolled": 74},
+    {"section_id": "26F-CS402-L1", "course_code": "CS402", "term": "2026-fall", "kind": "lecture", "days": ["sunday", "tuesday"], "start": "10:00", "end": "11:30", "instructor": "Dr. Amr Hassan", "capacity": 60, "enrolled": 58},
+    {"section_id": "26F-CS410-L1", "course_code": "CS410", "term": "2026-fall", "kind": "lecture", "days": ["sunday", "tuesday"], "start": "12:00", "end": "13:30", "instructor": "Dr. Amr Hassan", "capacity": 40, "enrolled": 33},
+    {"section_id": "27S-CS101-L1", "course_code": "CS101", "term": "2027-spring", "kind": "lecture", "days": ["sunday", "tuesday"], "start": "08:30", "end": "10:00", "instructor": "Dr. Tarek Nabil", "capacity": 120, "enrolled": 88},
+    {"section_id": "27S-CS201-L1", "course_code": "CS201", "term": "2027-spring", "kind": "lecture", "days": ["monday", "wednesday"], "start": "10:00", "end": "11:30", "instructor": "Dr. Tarek Nabil", "capacity": 80, "enrolled": 62},
+    {"section_id": "27S-CS201-T1", "course_code": "CS201", "term": "2027-spring", "kind": "tutorial", "days": ["thursday"], "start": "12:00", "end": "13:30", "instructor": "Eng. Omar Said", "capacity": 30, "enrolled": 24},
+    {"section_id": "27S-CS301-L1", "course_code": "CS301", "term": "2027-spring", "kind": "lecture", "days": ["sunday", "tuesday"], "start": "12:00", "end": "13:30", "instructor": "Dr. Salma Adel", "capacity": 60, "enrolled": 47},
+    {"section_id": "27S-CS301-T1", "course_code": "CS301", "term": "2027-spring", "kind": "tutorial", "days": ["wednesday"], "start": "08:30", "end": "10:00", "instructor": "Eng. Rana Magdy", "capacity": 30, "enrolled": 30},
+    {"section_id": "27S-CS305-L1", "course_code": "CS305", "term": "2027-spring", "kind": "lecture", "days": ["monday", "wednesday"], "start": "12:00", "end": "13:30", "instructor": "Dr. Salma Adel", "capacity": 60, "enrolled": 39},
+    {"section_id": "27S-CS305-LB1", "course_code": "CS305", "term": "2027-spring", "kind": "lab", "days": ["thursday"], "start": "10:00", "end": "12:00", "instructor": "Eng. Rana Magdy", "capacity": 25, "enrolled": 25},
+    {"section_id": "27S-MATH101-L1", "course_code": "MATH101", "term": "2027-spring", "kind": "lecture", "days": ["sunday", "tuesday"], "start": "10:00", "end": "11:30", "instructor": "Dr. Hana Fawzy", "capacity": 120, "enrolled": 95},
+    {"section_id": "27S-MATH201-L1", "course_code": "MATH201", "term": "2027-spring", "kind": "lecture", "days": ["monday", "wednesday"], "start": "08:30", "end": "10:00", "instructor": "Dr. Hana Fawzy", "capacity": 80, "enrolled": 58},
+    {"section_id": "27S-MATH201-T1", "course_code": "MATH201", "term": "2027-spring", "kind": "tutorial", "days": ["tuesday"], "start": "14:00", "end": "15:30", "instructor": "Eng. Omar Said", "capacity": 30, "enrolled": 21},
+    {"section_id": "27S-MATH202-L1", "course_code": "MATH202", "term": "2027-spring", "kind": "lecture", "days": ["sunday", "tuesday"], "start": "14:00", "end": "15:30", "instructor": "Dr. Hana Fawzy", "capacity": 80, "enrolled": 66},
+    {"section_id": "27S-MATH202-T1", "course_code": "MATH202", "term": "2027-spring", "kind": "tutorial", "days": ["thursday"], "start": "08:30", "end": "10:00", "instructor": "Eng. Omar Said", "capacity": 30, "enrolled": 27},
+    {"section_id": "27S-CS402-L1", "course_code": "CS402", "term": "2027-spring", "kind": "lecture", "days": ["sunday", "tuesday"], "start": "10:00", "end": "11:30", "instructor": "Dr. Amr Hassan", "capacity": 60, "enrolled": 41},
+    {"section_id": "27S-CS402-T1", "course_code": "CS402", "term": "2027-spring", "kind": "tutorial", "days": ["monday"], "start": "12:00", "end": "13:30", "instructor": "Eng. Rana Magdy", "capacity": 25, "enrolled": 25},
+    {"section_id": "27S-CS402-T2", "course_code": "CS402", "term": "2027-spring", "kind": "tutorial", "days": ["wednesday"], "start": "14:00", "end": "15:30", "instructor": "Eng. Rana Magdy", "capacity": 25, "enrolled": 19},
+    {"section_id": "27S-CS403-L1", "course_code": "CS403", "term": "2027-spring", "kind": "lecture", "days": ["monday", "wednesday"], "start": "10:00", "end": "11:30", "instructor": "Dr. Amr Hassan", "capacity": 40, "enrolled": 22},
+    {"section_id": "27S-CS403-LB1", "course_code": "CS403", "term": "2027-spring", "kind": "lab", "days": ["thursday"], "start": "12:00", "end": "14:00", "instructor": "Eng. Omar Said", "capacity": 20, "enrolled": 12}
+  ],
+  "students": [
+    {"student_id": "S1001", "name": "Nour Ahmed", "records": [
+      {"course_code": "CS101", "term": "2025-spring", "status": "passed"},
+      {"course_code": "MATH101", "term": "2025-spring", "status": "passed"},
+      {"course_code": "CS201", "term": "2025-fall", "status": "passed"},
+      {"course_code": "MATH201", "term": "2025-fall", "status": "passed"},
+      {"course_code": "MATH202", "term": "2026-spring", "status": "passed"},
+      {"course_code": "CS305", "term": "2026-spring", "status": "failed"},
+      {"course_code": "CS301", "term": "2026-fall", "status": "in_progress"}
+    ]},
+    {"student_id": "S1002", "name": "Karim Mostafa", "records": [
+      {"course_code": "CS101", "term": "2025-fall", "status": "passed"},
+      {"course_code": "MATH101", "term": "2025-fall", "status": "passed"},
+      {"course_code": "CS201", "term": "2026-spring", "status": "passed"},
+      {"course_code": "MATH201", "term": "2026-spring", "status": "passed"},
+      {"course_code": "MATH202", "term": "2026-fall", "status": "in_progress"},
+      {"course_code": "CS305", "term": "2026-fall", "status": "in_progress"}
+    ]},
+    {"student_id": "S1003", "name": "Laila Hassan", "records": [
+      {"course_code": "CS101", "term": "2025-fall", "status": "passed"},
+      {"course_code": "MATH101", "term": "2025-fall", "status": "passed"},
+      {"course_code": "CS201", "term": "2026-spring", "status": "passed"},
+      {"course_code": "MATH201", "term": "2026-spring", "status": "failed"},
+      {"course_code": "CS301", "term": "2026-fall", "status": "in_progress"}
+    ]},
+    {"student_id": "S1004", "name": "Adam Ibrahim", "records": [
+      {"course_code": "CS101", "term": "2026-fall", "status": "in_progress"},
+      {"course_code": "MATH101", "term": "2026-fall", "status": "in_progress"}
+    ]},
+    {"student_id": "S1005", "name": "Mariam Khaled", "records": [
+      {"course_code": "CS101", "term": "2025-spring", "status": "passed"},
+      {"course_code": "MATH101", "term": "2025-spring", "status": "passed"},
+      {"course_code": "CS201", "term": "2025-fall", "status": "failed"},
+      {"course_code": "MATH201", "term": "2025-fall", "status": "passed"},
+      {"course_code": "CS201", "term": "2026-spring", "status": "passed"},
+      {"course_code": "MATH202", "term": "2026-spring", "status": "passed"},
+      {"course_code": "CS402", "term": "2026-fall", "status": "in_progress"},
+      {"course_code": "CS305", "term": "2026-fall", "status": "in_progress"}
+    ]}
+  ]
+}
