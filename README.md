@@ -1,5 +1,7 @@
 # Course Advisor Agent
 
+[![CI](https://github.com/Youssef-Osama1/course-advisor-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/Youssef-Osama1/course-advisor-agent/actions/workflows/ci.yml)
+
 A university advising agent that answers course questions by calling tools over catalog data, built on a hand-written tool-calling loop.
 
 Send a student message and the agent decides which tools to call, runs them against the course
@@ -61,9 +63,41 @@ uv run python -m playground.try_advisor              # a few messages through th
 The evals check whether the agent called the right tools with the right arguments, that it
 asks instead of guessing vague course names, and that it never leaks another student's data.
 
+## Docker
+
+```bash
+docker build -f docker/Dockerfile -t course-advisor-agent .
+docker run --rm -p 8000:8000 --env-file .env course-advisor-agent
+```
+
+The image installs runtime dependencies only, includes `data/catalog.json`, runs as a
+non-root user and listens on `$PORT` (default 8000). `.env` is never copied into the
+image, so secrets are passed at run time. Values in `.env` must not be quoted for
+`--env-file`.
+
+## CI and Deployment
+
+Every push to `main` and every pull request runs `.github/workflows/ci.yml`: ruff lint,
+ruff format check, pytest and a Docker build.
+
+The app runs on Render as a Docker web service:
+
+| Setting | Value |
+|---|---|
+| Dockerfile path | `./docker/Dockerfile` |
+| Build context | `.` |
+| Health check path | `/health` |
+| Auto-deploy | After CI checks pass |
+| Environment | `LLM_API_KEY`, `TODAY_OVERRIDE` (other settings have defaults) |
+
+`TODAY_OVERRIDE=2026-10-19` fixes the date used to find the current and next terms, so
+answers match the sample catalog. Without it, terms are derived from the real date and
+the catalog has no next term once Spring 2027 starts.
+
 ## Project Structure
 
 ```text
+├── .github/          # CI workflow
 ├── app/
 │   ├── api/          # Routes, dependencies and request/response models
 │   ├── config/       # Settings loaded from .env
@@ -75,7 +109,7 @@ asks instead of guessing vague course names, and that it never leaks another stu
 │   ├── tools/        # Course tools and eligibility rules
 │   └── main.py       # FastAPI app entry point
 ├── data/             # Sample terms, courses, sections and students
-├── docker/           # Docker configurations
+├── docker/           # Dockerfile
 ├── docs/             # Documentation files
 ├── evals/            # Eval cases and runner
 ├── playground/       # Experimental code, never imported by app/
